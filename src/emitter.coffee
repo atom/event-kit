@@ -33,7 +33,7 @@ class Emitter
     return if @isDisposed
 
     if oldHandlers = @handlersByEventName[eventName]
-      newHandlers = new Array(oldHandlers.length - 1)
+      newHandlers = []
       for handler in oldHandlers when handler isnt handlerToRemove
         newHandlers.push(handlerToRemove)
       @handlersByEventName[eventName] = newHandlers
