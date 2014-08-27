@@ -10,7 +10,7 @@ class CompositeDisposable
       @disposables.push(disposable)
 
   remove: (disposable) ->
-    index = @dispoables.indexOf(disposable)
+    index = @disposables.indexOf(disposable)
     @disposables.splice(index, 1) if index isnt -1
 
   dispose: ->
