@@ -35,5 +35,5 @@ class Emitter
     if oldHandlers = @handlersByEventName[eventName]
       newHandlers = []
       for handler in oldHandlers when handler isnt handlerToRemove
-        newHandlers.push(handlerToRemove)
+        newHandlers.push(handler)
       @handlersByEventName[eventName] = newHandlers
