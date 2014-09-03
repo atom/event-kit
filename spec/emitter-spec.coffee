@@ -25,3 +25,8 @@ describe "Emitter", ->
 
     expect(fooEvents).toEqual [1, 2]
     expect(barEvents).toEqual [3, 5]
+
+  it "throws an exception when subscribing with a callback that isn't a function", ->
+    emitter = new Emitter
+    expect(-> emitter.on('foo', null)).toThrow()
+    expect(-> emitter.on('foo', 'a')).toThrow()

@@ -11,6 +11,9 @@ class Emitter
     if @isDisposed
       throw new Error("Emitter has been disposed")
 
+    if typeof handler isnt 'function'
+      throw new Error("Handler must be a function")
+
     if currentHandlers = @handlersByEventName[eventName]
       @handlersByEventName[eventName] = currentHandlers.concat(handler)
     else
