@@ -20,7 +20,9 @@
       "url": "http://github.com/atom/event-kit/raw/master/LICENSE.md"
     }
   ],
-  "dependencies": {},
+  "dependencies": {
+    "grim": "^0.12.0"
+  },
   "devDependencies": {
     "coffee-script": "^1.7.0",
     "jasmine-focused": "^1.0.4",
