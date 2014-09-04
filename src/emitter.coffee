@@ -22,10 +22,7 @@ class Emitter
     new Disposable(@off.bind(this, eventName, handler))
 
   emit: (eventName, value) ->
-    if @isDisposed
-      throw new Error("Emitter has been disposed")
-
-    if handlers = @handlersByEventName[eventName]
+    if handlers = @handlersByEventName?[eventName]
       handler(value) for handler in handlers
 
   dispose: ->
