@@ -4,7 +4,7 @@
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./lib/event-kit",
   "scripts": {
-    "prepublish": "grunt clean lint coffee",
+    "prepublish": "grunt clean lint coffee atomdoc",
     "test": "grunt test"
   },
   "repository": {
@@ -24,15 +24,16 @@
     "grim": "^0.12.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.0",
-    "jasmine-focused": "^1.0.4",
-    "grunt-contrib-coffee": "^0.9.0",
-    "grunt-cli": "^0.1.8",
-    "grunt": "^0.4.1",
-    "grunt-shell": "^0.2.2",
-    "grunt-coffeelint": "^0.0.6",
-    "rimraf": "^2.2.2",
     "coffee-cache": "^0.2.0",
+    "coffee-script": "^1.7.0",
+    "grunt": "^0.4.1",
+    "grunt-atomdoc": "^1.0.0",
+    "grunt-cli": "^0.1.8",
+    "grunt-coffeelint": "^0.0.6",
+    "grunt-contrib-coffee": "^0.9.0",
+    "grunt-shell": "^0.2.2",
+    "jasmine-focused": "^1.0.4",
+    "rimraf": "^2.2.2",
     "temp": "^0.6.0"
   }
 }
