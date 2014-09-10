@@ -4,7 +4,7 @@ Grim = require 'grim'
 # {Emitter::on} returns disposables representing subscriptions.
 module.exports =
 class Disposable
-  isDisposed: false
+  disposed: false
 
   # Public:
   #
@@ -18,8 +18,8 @@ class Disposable
   # You can call this method more than once, but the disposal action will only
   # be performed the first time.
   dispose: ->
-    unless @isDisposed
-      @isDisposed = true
+    unless @disposed
+      @disposed = true
       @disposalAction?()
 
   off: ->

@@ -2,7 +2,7 @@
 # into a single disposable, so they can all be disposed as a group.
 module.exports =
 class CompositeDisposable
-  isDisposed: false
+  disposed: false
 
   constructor: ->
     @disposables = []
@@ -14,7 +14,7 @@ class CompositeDisposable
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
   add: (disposable) ->
-    unless @isDisposed
+    unless @disposed
       @disposables.push(disposable)
 
   # Public: Remove a previously added disposable.
@@ -29,7 +29,8 @@ class CompositeDisposable
   #
   # If this object has already been disposed, this method has no effect.
   dispose: ->
-    unless @isDisposed
+    unless @disposed
+      @disposed = true
       disposable.dispose() for disposable in @disposables
       @clear()
 
