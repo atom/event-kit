@@ -4,8 +4,10 @@ module.exports =
 class CompositeDisposable
   disposed: false
 
+  # Public: Construct an instance, optionally with one or more
   constructor: ->
     @disposables = []
+    @add(disposable) for disposable in arguments
 
   # Public: Add a disposable to be disposed when the composite is disposed.
   #
