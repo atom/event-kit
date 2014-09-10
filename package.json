@@ -4,7 +4,7 @@
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./lib/event-kit",
   "scripts": {
-    "prepublish": "grunt clean lint coffee atomdoc",
+    "prepublish": "grunt clean lint coffee shell:update-atomdoc atomdoc",
     "test": "grunt test"
   },
   "repository": {
