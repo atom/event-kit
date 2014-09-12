@@ -1,4 +1,4 @@
-# Public: An object that aggregates multiple {Disposable} instances together
+# Essential: An object that aggregates multiple {Disposable} instances together
 # into a single disposable, so they can all be disposed as a group.
 module.exports =
 class CompositeDisposable
