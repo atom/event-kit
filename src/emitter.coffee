@@ -25,8 +25,22 @@ module.exports =
 class Emitter
   isDisposed: false
 
+  ###
+  Section: Construction and Destruction
+  ###
+
+  # Public: Construct an emitter.
+  #
+  # ```coffee
+  # @emitter = new Emitter()
+  # ```
   constructor: ->
     @handlersByEventName = {}
+
+  # Public: Unsubscribe all handlers.
+  dispose: ->
+    @handlersByEventName = null
+    @isDisposed = true
 
   # Public: Register the given handler function to be invoked whenever events by
   # the given name are emitted via {::emit}.
