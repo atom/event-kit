@@ -4,10 +4,27 @@ module.exports =
 class CompositeDisposable
   disposed: false
 
+  ###
+  Section: Construction and Destruction
+  ###
+
   # Public: Construct an instance, optionally with one or more
   constructor: ->
     @disposables = []
     @add(disposable) for disposable in arguments
+
+  # Public: Dispose all disposables added to this composite disposable.
+  #
+  # If this object has already been disposed, this method has no effect.
+  dispose: ->
+    unless @disposed
+      @disposed = true
+      disposable.dispose() for disposable in @disposables
+      @clear()
+
+  ###
+  Section: Managing Disposables
+  ###
 
   # Public: Add a disposable to be disposed when the composite is disposed.
   #
@@ -26,15 +43,6 @@ class CompositeDisposable
   remove: (disposable) ->
     index = @disposables.indexOf(disposable)
     @disposables.splice(index, 1) if index isnt -1
-
-  # Public: Dispose all disposables added to this composite disposable.
-  #
-  # If this object has already been disposed, this method has no effect.
-  dispose: ->
-    unless @disposed
-      @disposed = true
-      disposable.dispose() for disposable in @disposables
-      @clear()
 
   # Public: Clear all disposables. They will not be disposed by the next call
   # to dispose.
