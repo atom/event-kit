@@ -1,6 +1,6 @@
 Disposable = require './disposable'
 
-# Public: Utility class to be used when implementing event-based APIs that
+# Essential: Utility class to be used when implementing event-based APIs that
 # allows for handlers registered via `::on` to be invoked with calls to
 # `::emit`. Instances of this class are intended to be used internally by
 # classes that expose an event-based API.
@@ -25,8 +25,26 @@ module.exports =
 class Emitter
   isDisposed: false
 
+  ###
+  Section: Construction and Destruction
+  ###
+
+  # Public: Construct an emitter.
+  #
+  # ```coffee
+  # @emitter = new Emitter()
+  # ```
   constructor: ->
     @handlersByEventName = {}
+
+  # Public: Unsubscribe all handlers.
+  dispose: ->
+    @handlersByEventName = null
+    @isDisposed = true
+
+  ###
+  Section: Event Subscription
+  ###
 
   # Public: Register the given handler function to be invoked whenever events by
   # the given name are emitted via {::emit}.
@@ -51,20 +69,7 @@ class Emitter
 
     new Disposable(@off.bind(this, eventName, handler))
 
-  # Public: Invoke handlers registered via {::on} for the given event name.
-  #
-  # * `eventName` The name of the event to emit. Handlers registered with {::on}
-  #   for the same name will be invoked.
-  # * `value` Callbacks will be invoked with this value as an argument.
-  emit: (eventName, value) ->
-    if handlers = @handlersByEventName?[eventName]
-      handler(value) for handler in handlers
-
-  # Public: Unsubscribe all handlers.
-  dispose: ->
-    @handlersByEventName = null
-    @isDisposed = true
-
+  # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
     return if @isDisposed
 
@@ -73,3 +78,17 @@ class Emitter
       for handler in oldHandlers when handler isnt handlerToRemove
         newHandlers.push(handler)
       @handlersByEventName[eventName] = newHandlers
+
+  ###
+  Section: Event Emission
+  ###
+
+  # Public: Invoke handlers registered via {::on} for the given event name.
+  #
+  # * `eventName` The name of the event to emit. Handlers registered with {::on}
+  #   for the same name will be invoked.
+  # * `value` Callbacks will be invoked with this value as an argument.
+  emit: (eventName, value) ->
+    if handlers = @handlersByEventName?[eventName]
+      handler(value) for handler in handlers
+    return
