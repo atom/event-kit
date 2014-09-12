@@ -6,7 +6,11 @@ module.exports =
 class Disposable
   disposed: false
 
-  # Public:
+  ###
+  Section: Construction and Destruction
+  ###
+
+  # Public: Construct a Disposable
   #
   # * `disposalAction` An action to perform when {::dispose} is called for the
   #   first time.
