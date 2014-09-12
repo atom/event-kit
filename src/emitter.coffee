@@ -91,3 +91,4 @@ class Emitter
   emit: (eventName, value) ->
     if handlers = @handlersByEventName?[eventName]
       handler(value) for handler in handlers
+    return
