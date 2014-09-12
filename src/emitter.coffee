@@ -42,6 +42,10 @@ class Emitter
     @handlersByEventName = null
     @isDisposed = true
 
+  ###
+  Section: Event Subscription
+  ###
+
   # Public: Register the given handler function to be invoked whenever events by
   # the given name are emitted via {::emit}.
   #
@@ -65,20 +69,7 @@ class Emitter
 
     new Disposable(@off.bind(this, eventName, handler))
 
-  # Public: Invoke handlers registered via {::on} for the given event name.
-  #
-  # * `eventName` The name of the event to emit. Handlers registered with {::on}
-  #   for the same name will be invoked.
-  # * `value` Callbacks will be invoked with this value as an argument.
-  emit: (eventName, value) ->
-    if handlers = @handlersByEventName?[eventName]
-      handler(value) for handler in handlers
-
-  # Public: Unsubscribe all handlers.
-  dispose: ->
-    @handlersByEventName = null
-    @isDisposed = true
-
+  # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
     return if @isDisposed
 
@@ -87,3 +78,16 @@ class Emitter
       for handler in oldHandlers when handler isnt handlerToRemove
         newHandlers.push(handler)
       @handlersByEventName[eventName] = newHandlers
+
+  ###
+  Section: Event Emission
+  ###
+
+  # Public: Invoke handlers registered via {::on} for the given event name.
+  #
+  # * `eventName` The name of the event to emit. Handlers registered with {::on}
+  #   for the same name will be invoked.
+  # * `value` Callbacks will be invoked with this value as an argument.
+  emit: (eventName, value) ->
+    if handlers = @handlersByEventName?[eventName]
+      handler(value) for handler in handlers
