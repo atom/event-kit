@@ -1,6 +1,6 @@
 Disposable = require './disposable'
 
-# Public: Utility class to be used when implementing event-based APIs that
+# Essential: Utility class to be used when implementing event-based APIs that
 # allows for handlers registered via `::on` to be invoked with calls to
 # `::emit`. Instances of this class are intended to be used internally by
 # classes that expose an event-based API.
