@@ -72,6 +72,23 @@ class Emitter
 
     new Disposable(@off.bind(this, eventName, handler))
 
+  # Public: Register the given handler function to be invoked *before* all
+  # other handlers existing at the time of subscription whenever events by the
+  # given name are emitted via {::emit}.
+  #
+  # Use this method when you need to be the first to handle a given event. This
+  # could be required when a data structure in a parent object needs to be
+  # updated before third-party event handlers registered on a child object via a
+  # public API are invoked. Your handler could itself be preempted via
+  # subsequent calls to this method, but this can be controlled by keeping
+  # methods based on `::preempt` private.
+  #
+  # * `eventName` {String} naming the event that you want to invoke the handler
+  #   when emitted.
+  # * `handler` {Function} to invoke when {::emit} is called with the given
+  #   event name.
+  #
+  # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
   preempt: (eventName, handler) ->
     @on(eventName, handler, true)
 
