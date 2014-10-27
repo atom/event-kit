@@ -7,8 +7,9 @@ describe "Emitter", ->
     fooEvents = []
     barEvents = []
 
-    sub1 = emitter.on 'foo', (value) -> fooEvents.push(value)
-    sub2 = emitter.on 'bar', (value) -> barEvents.push(value)
+    sub1 = emitter.on 'foo', (value) -> fooEvents.push(['a', value])
+    sub2 = emitter.on 'bar', (value) -> barEvents.push(['b', value])
+    sub3 = emitter.preempt 'bar', (value) -> barEvents.push(['c', value])
 
     emitter.emit 'foo', 1
     emitter.emit 'foo', 2
@@ -23,8 +24,8 @@ describe "Emitter", ->
 
     emitter.emit 'bar', 6
 
-    expect(fooEvents).toEqual [1, 2]
-    expect(barEvents).toEqual [3, 5]
+    expect(fooEvents).toEqual [['a', 1], ['a', 2]]
+    expect(barEvents).toEqual [['c', 3], ['b', 3], ['c', 5], ['b', 5], ['c', 6]]
 
   it "throws an exception when subscribing with a callback that isn't a function", ->
     emitter = new Emitter

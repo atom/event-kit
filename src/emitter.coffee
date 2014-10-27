@@ -55,7 +55,7 @@ class Emitter
   #   event name.
   #
   # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
-  on: (eventName, handler) ->
+  on: (eventName, handler, unshift=false) ->
     if @isDisposed
       throw new Error("Emitter has been disposed")
 
@@ -63,11 +63,17 @@ class Emitter
       throw new Error("Handler must be a function")
 
     if currentHandlers = @handlersByEventName[eventName]
-      @handlersByEventName[eventName] = currentHandlers.concat(handler)
+      if unshift
+        @handlersByEventName[eventName] = [handler].concat(currentHandlers)
+      else
+        @handlersByEventName[eventName] = currentHandlers.concat(handler)
     else
       @handlersByEventName[eventName] = [handler]
 
     new Disposable(@off.bind(this, eventName, handler))
+
+  preempt: (eventName, handler) ->
+    @on(eventName, handler, true)
 
   # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
