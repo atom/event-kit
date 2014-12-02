@@ -19,8 +19,8 @@ class CompositeDisposable
   dispose: ->
     unless @disposed
       @disposed = true
-      disposable.dispose() for disposable in @disposables
-      @clear()
+      while disposable = @disposables.shift()
+        disposable.dispose()
 
   ###
   Section: Managing Disposables
