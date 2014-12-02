@@ -8,7 +8,7 @@ class CompositeDisposable
   Section: Construction and Destruction
   ###
 
-  # Public: Construct an instance, optionally with one or more
+  # Public: Construct an instance, optionally with one or more disposables
   constructor: ->
     @disposables = []
     @add(disposable) for disposable in arguments
