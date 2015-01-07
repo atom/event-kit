@@ -1,5 +1,22 @@
 # Essential: An object that aggregates multiple {Disposable} instances together
 # into a single disposable, so they can all be disposed as a group.
+#
+# These are very useful when subscribing to multiple events.
+#
+# ## Examples
+#
+# ```coffee
+# {CompositeDisposable} = require 'atom'
+#
+# class Something
+#   constructor: ->
+#     editor = atom.workspace.getActiveTextEditor()
+#     @disposables.add editor.onDidChange ->
+#     @disposables.add editor.onDidChangePath ->
+#
+#   destroy: ->
+#     @disposables.dispose()
+# ```
 module.exports =
 class CompositeDisposable
   disposed: false
