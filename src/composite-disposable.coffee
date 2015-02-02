@@ -10,6 +10,7 @@
 #
 # class Something
 #   constructor: ->
+#     @disposables = new CompositeDisposable
 #     editor = atom.workspace.getActiveTextEditor()
 #     @disposables.add editor.onDidChange ->
 #     @disposables.add editor.onDidChangePath ->
