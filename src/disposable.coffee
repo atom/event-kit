@@ -24,7 +24,9 @@ class Disposable
   dispose: ->
     unless @disposed
       @disposed = true
-      @disposalAction?()
+      if @disposalAction
+        @disposalAction?()
+        @disposalAction = null
 
   off: ->
     Grim.deprecate("Use ::dispose to cancel subscriptions instead of ::off")
