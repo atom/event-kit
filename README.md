@@ -1,4 +1,4 @@
-# event-kit
+# event-kit [![Build Status](https://travis-ci.org/atom/event-kit.svg?branch=master)](https://travis-ci.org/atom/event-kit)
 
 This is a simple library for implementing event subscription APIs.
 
