@@ -26,6 +26,7 @@ class Disposable
       @disposed = true
       @disposalAction?()
       @disposalAction = null
+    return
 
 if Grim.includeDeprecatedAPIs
   Disposable::off = ->
