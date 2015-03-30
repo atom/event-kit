@@ -21,7 +21,7 @@
     }
   ],
   "dependencies": {
-    "grim": "^1.0.0"
+    "grim": "^1.2.1"
   },
   "devDependencies": {
     "coffee-cache": "^0.2.0",
