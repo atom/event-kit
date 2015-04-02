@@ -39,6 +39,7 @@ class CompositeDisposable
       @disposed = true
       while disposable = @disposables.shift()
         disposable.dispose()
+    return
 
   ###
   Section: Managing Disposables
@@ -51,8 +52,8 @@ class CompositeDisposable
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
   add: (disposable) ->
-    unless @disposed
-      @disposables.push(disposable)
+    @disposables.push(disposable) unless @disposed
+    return
 
   # Public: Remove a previously added disposable.
   #
@@ -61,8 +62,10 @@ class CompositeDisposable
   remove: (disposable) ->
     index = @disposables.indexOf(disposable)
     @disposables.splice(index, 1) if index isnt -1
+    return
 
   # Public: Clear all disposables. They will not be disposed by the next call
   # to dispose.
   clear: ->
     @disposables.length = 0
+    return

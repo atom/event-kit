@@ -101,6 +101,7 @@ class Emitter
       for handler in oldHandlers when handler isnt handlerToRemove
         newHandlers.push(handler)
       @handlersByEventName[eventName] = newHandlers
+    return
 
   ###
   Section: Event Emission
