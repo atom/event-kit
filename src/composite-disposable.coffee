@@ -27,9 +27,9 @@ class CompositeDisposable
   ###
 
   # Public: Construct an instance, optionally with one or more disposables
-  constructor: ->
+  constructor: (dispoables...) ->
     @disposables = []
-    @add(disposable) for disposable in arguments
+    @add(disposables...)
 
   # Public: Dispose all disposables added to this composite disposable.
   #
@@ -51,8 +51,12 @@ class CompositeDisposable
   #
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
-  add: (disposable) ->
-    @disposables.push(disposable) unless @disposed
+  add: (disposables...) ->
+    unless @disposed
+      if disposables.length is 1 and Array.isArray(disposables[0])
+        disposables = disposables[0]
+      for disposable in disposables
+        @disposables.push(disposable)
     return
 
   # Public: Remove a previously added disposable.
