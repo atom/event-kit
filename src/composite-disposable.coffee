@@ -27,7 +27,7 @@ class CompositeDisposable
   ###
 
   # Public: Construct an instance, optionally with one or more disposables
-  constructor: (dispoables...) ->
+  constructor: (disposables...) ->
     @disposables = []
     @add(disposables...)
 
