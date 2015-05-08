@@ -52,9 +52,9 @@ class CompositeDisposable
   #
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
-  add: (disposables...) ->
+  add: ->
     unless @disposed
-      @disposables.add(disposable) for disposable in disposables
+      @disposables.add(disposable) for disposable in arguments
     return
 
   # Public: Remove a previously added disposable.
