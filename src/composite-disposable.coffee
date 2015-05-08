@@ -27,9 +27,9 @@ class CompositeDisposable
   ###
 
   # Public: Construct an instance, optionally with one or more disposables
-  constructor: (disposables...) ->
-    @disposables = []
-    @add(disposables...)
+  constructor: ->
+    @disposables = new Set
+    @add(disposable) for disposable in arguments
 
   # Public: Dispose all disposables added to this composite disposable.
   #
@@ -37,8 +37,9 @@ class CompositeDisposable
   dispose: ->
     unless @disposed
       @disposed = true
-      while disposable = @disposables.shift()
+      @disposables.forEach (disposable) ->
         disposable.dispose()
+      @disposables = null
     return
 
   ###
@@ -51,12 +52,9 @@ class CompositeDisposable
   #
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
-  add: (disposables...) ->
+  add: ->
     unless @disposed
-      if disposables.length is 1 and Array.isArray(disposables[0])
-        disposables = disposables[0]
-      for disposable in disposables
-        @disposables.push(disposable)
+      @disposables.add(disposable) for disposable in arguments
     return
 
   # Public: Remove a previously added disposable.
@@ -64,12 +62,11 @@ class CompositeDisposable
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
   #   method.
   remove: (disposable) ->
-    index = @disposables.indexOf(disposable)
-    @disposables.splice(index, 1) if index isnt -1
+    @disposables.delete(disposable) unless @disposed
     return
 
   # Public: Clear all disposables. They will not be disposed by the next call
   # to dispose.
   clear: ->
-    @disposables.length = 0
+    @disposables.clear() unless @disposed
     return
