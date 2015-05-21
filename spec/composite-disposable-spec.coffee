@@ -20,7 +20,7 @@ describe "CompositeDisposable", ->
   it "allows disposables to be added and removed", ->
     composite = new CompositeDisposable
     composite.add(disposable1)
-    composite.add(disposable3, disposable3)
+    composite.add(disposable2, disposable3)
     composite.remove(disposable2)
 
     composite.dispose()
