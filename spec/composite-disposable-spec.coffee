@@ -29,3 +29,10 @@ describe "CompositeDisposable", ->
     expect(disposable1.disposed).toBe true
     expect(disposable2.disposed).toBe false
     expect(disposable3.disposed).toBe true
+
+  it "denies to add an object that does not respond to ::dispose", ->
+    composite = new CompositeDisposable
+
+    expect(-> composite.add(undefined)).toThrow()
+    expect(-> composite.add(null)).toThrow()
+    expect(-> composite.add(whatever: ->)).toThrow()

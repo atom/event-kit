@@ -54,7 +54,11 @@ class CompositeDisposable
   #   method.
   add: ->
     unless @disposed
-      @disposables.add(disposable) for disposable in arguments
+      for disposable in arguments
+        if typeof disposable?.dispose isnt "function"
+          throw new Error("#{disposable} must implement ::dispose!")
+
+        @disposables.add(disposable)
     return
 
   # Public: Remove a previously added disposable.
