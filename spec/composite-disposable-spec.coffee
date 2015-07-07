@@ -30,9 +30,18 @@ describe "CompositeDisposable", ->
     expect(disposable2.disposed).toBe false
     expect(disposable3.disposed).toBe true
 
-  it "throws an error if a disposable does not implement ::dispose", ->
+  it "throws an error when adding a disposable without a ::dispose function", ->
     composite = new CompositeDisposable
 
-    expect(-> composite.add(undefined)).toThrow()
-    expect(-> composite.add(null)).toThrow()
-    expect(-> composite.add(whatever: ->)).toThrow()
+    expect(-> composite.add(undefined)).toThrow("undefined must implement ::dispose!")
+    expect(-> composite.add(null)).toThrow("null must implement ::dispose!")
+    expect(-> composite.add(whatever: ->)).toThrow("[object Object] must implement ::dispose!")
+
+  it "throws an error when disposing a disposable without a ::dispose function", ->
+    composite = new CompositeDisposable
+    disposable = {dispose: ->}
+    composite.add(disposable)
+
+    delete disposable["dispose"]
+
+    expect(-> composite.dispose()).toThrow("[object Object] must implement ::dispose!")
