@@ -30,7 +30,7 @@ describe "CompositeDisposable", ->
     expect(disposable2.disposed).toBe false
     expect(disposable3.disposed).toBe true
 
-  describe "::addIfDisposable(args...)", ->
+  describe "::addIfDisposable(disposables...)", ->
     it "ignores disposables without a ::dispose function", ->
       composite = new CompositeDisposable
       composite.addIfDisposable(disposable1, undefined, null)

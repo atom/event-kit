@@ -58,7 +58,7 @@ class CompositeDisposable
     return
 
   # Public: Add a disposable to be disposed when the composite is disposed,
-  # ignoring those ones that do not implement `.dispose()`.
+  # ignoring it if it does not implement `.dispose()`.
   #
   # See {CompositeDisposable::add} documentation for further information.
   #
