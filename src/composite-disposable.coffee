@@ -38,7 +38,6 @@ class CompositeDisposable
     unless @disposed
       @disposed = true
       @disposables.forEach (disposable) =>
-        @ensureDisposable(disposable)
         disposable.dispose()
       @disposables = null
     return
@@ -55,8 +54,12 @@ class CompositeDisposable
   #   method.
   add: ->
     unless @disposed
-      for disposable in arguments
-        @ensureDisposable(disposable)
+      @disposables.add(disposable) for disposable in arguments
+    return
+
+  addIfDisposable: ->
+    unless @disposed
+      for disposable in arguments when typeof disposable?.dispose is "function"
         @disposables.add(disposable)
     return
 
@@ -73,9 +76,3 @@ class CompositeDisposable
   clear: ->
     @disposables.clear() unless @disposed
     return
-
-  # Private: Ensures that the given `disposable` responds to ::dispose and
-  # throws an error if it doesn't.
-  ensureDisposable: (disposable) ->
-    if typeof disposable?.dispose isnt "function"
-      throw new Error("#{disposable} must implement ::dispose!")
