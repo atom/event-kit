@@ -37,7 +37,7 @@ class CompositeDisposable
   dispose: ->
     unless @disposed
       @disposed = true
-      @disposables.forEach (disposable) =>
+      @disposables.forEach (disposable) ->
         disposable.dispose()
       @disposables = null
     return
