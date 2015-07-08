@@ -57,10 +57,16 @@ class CompositeDisposable
       @disposables.add(disposable) for disposable in arguments
     return
 
+  # Public: Add a disposable to be disposed when the composite is disposed,
+  # ignoring those ones that do not implement `.dispose()`.
+  #
+  # See {CompositeDisposable::add} documentation for further information.
+  #
+  # * `disposable` {Disposable} instance or any object with a `.dispose()`
+  #   method.
   addIfDisposable: ->
-    unless @disposed
-      for disposable in arguments when typeof disposable?.dispose is "function"
-        @disposables.add(disposable)
+    for disposable in arguments
+      @add(disposable) if typeof disposable?.dispose is "function"
     return
 
   # Public: Remove a previously added disposable.
