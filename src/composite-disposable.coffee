@@ -28,8 +28,7 @@ class CompositeDisposable
 
   # Public: Construct an instance, optionally with one or more disposables
   constructor: ->
-    @disposables = new Set
-    @add(disposable) for disposable in arguments
+    @disposables = new Set(arguments)
 
   # Public: Dispose all disposables added to this composite disposable.
   #
