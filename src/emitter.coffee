@@ -23,7 +23,7 @@ Disposable = require './disposable'
 # ```
 module.exports =
 class Emitter
-  isDisposed: false
+  disposed: false
 
   ###
   Section: Construction and Destruction
@@ -40,7 +40,7 @@ class Emitter
   # Public: Unsubscribe all handlers.
   dispose: ->
     @handlersByEventName = null
-    @isDisposed = true
+    @disposed = true
 
   ###
   Section: Event Subscription
@@ -56,7 +56,7 @@ class Emitter
   #
   # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
   on: (eventName, handler, unshift=false) ->
-    if @isDisposed
+    if @disposed
       throw new Error("Emitter has been disposed")
 
     if typeof handler isnt 'function'
@@ -94,7 +94,7 @@ class Emitter
 
   # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
-    return if @isDisposed
+    return if @disposed
 
     if oldHandlers = @handlersByEventName[eventName]
       newHandlers = []
