@@ -21,7 +21,7 @@ describe "Disposable", ->
     disposable.dispose()
     expect(disposalAction.callCount).toBe 1
 
-  describe "::isDisposable(object)", ->
+  describe ".isDisposable(object)", ->
     it "returns true if the object implements the ::dispose function", ->
       expect(Disposable.isDisposable(new Disposable(->))).toBe(true)
       expect(Disposable.isDisposable({dispose: ->})).toBe(true)
