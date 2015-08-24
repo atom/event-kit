@@ -6,6 +6,15 @@ module.exports =
 class Disposable
   disposed: false
 
+  # Public: Ensure that an `object` correctly implements the `Disposable`
+  # contract.
+  #
+  # * `object` Any object you want to perform the check against.
+  #
+  # Returns a {Boolean} indicating whether `object` is a valid `Disposable`.
+  @isDisposable: (object) ->
+    typeof object?.dispose is "function"
+
   ###
   Section: Construction and Destruction
   ###
