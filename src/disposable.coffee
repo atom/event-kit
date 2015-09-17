@@ -6,10 +6,10 @@ module.exports =
 class Disposable
   disposed: false
 
-  # Public: Ensure that an `object` correctly implements the `Disposable`
+  # Public: Ensure that `object` correctly implements the `Disposable`
   # contract.
   #
-  # * `object` Any object you want to perform the check against.
+  # * `object` An {Object} you want to perform the check against.
   #
   # Returns a {Boolean} indicating whether `object` is a valid `Disposable`.
   @isDisposable: (object) ->
@@ -21,7 +21,7 @@ class Disposable
 
   # Public: Construct a Disposable
   #
-  # * `disposalAction` An action to perform when {::dispose} is called for the
+  # * `disposalAction` A {Function} to call when {::dispose} is called for the
   #   first time.
   constructor: (@disposalAction) ->
 
