@@ -46,12 +46,12 @@ class CompositeDisposable
   Section: Managing Disposables
   ###
 
-  # Public: Add a disposable to be disposed when the composite is disposed.
+  # Public: Add disposables to be disposed when the composite is disposed.
   #
   # If this object has already been disposed, this method has no effect.
   #
-  # * `disposable` {Disposable} instance or any object with a `.dispose()`
-  #   method.
+  # * `...disposables` {Disposable} instances or any objects with `.dispose()`
+  #   methods.
   add: ->
     unless @disposed
       @disposables.add(disposable) for disposable in arguments
