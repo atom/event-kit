@@ -35,6 +35,10 @@ class Emitter
   # @emitter = new Emitter()
   # ```
   constructor: ->
+    @clear()
+
+  # Public: Clear out any existing subscribers.
+  clear: ->
     @handlersByEventName = {}
 
   # Public: Unsubscribe all handlers.

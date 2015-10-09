@@ -31,3 +31,15 @@ describe "Emitter", ->
     emitter = new Emitter
     expect(-> emitter.on('foo', null)).toThrow()
     expect(-> emitter.on('foo', 'a')).toThrow()
+
+  it "allows all subsribers to be cleared out at once", ->
+    emitter = new Emitter
+    events = []
+
+    emitter.on 'foo', (value) -> events.push(['a', value])
+    emitter.preempt 'foo', (value) -> events.push(['b', value])
+    emitter.clear()
+
+    emitter.emit 'foo', 1
+    emitter.emit 'foo', 2
+    expect(events).toEqual []
