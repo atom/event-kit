@@ -2,6 +2,9 @@ Disposable = require './disposable'
 
 module.exports = class DOMEventListener
   constructor: (el, type, cb, {useCapture, delegationTarget, once}={}) ->
+    unless el instanceof EventTarget
+      throw new TypeError('Failed to create DOMEventListener: parameter 1 is not of type EventTarget')
+
     wrapper = (event) =>
       @dispose() if once
       if delegationTarget
