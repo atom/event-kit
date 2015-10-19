@@ -1,7 +1,7 @@
 Disposable = require './disposable'
 
 module.exports = class DOMEventListener
-  constructor: (el, type, cb, {useCapture, delegationTarget, once}) ->
+  constructor: (el, type, cb, {useCapture, delegationTarget, once}={}) ->
     wrapper = (event) =>
       @dispose() if once
       if delegationTarget
