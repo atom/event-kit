@@ -11,6 +11,15 @@ describe "DOMEventListener", ->
     listener?.dispose?()
     counter = 0
 
+  it "should throw a TypeError when the provided target is not an instance of EventTarget", ->
+    error = null
+    try
+      listener = new DOMEventListener {}, 'click', ->
+        counter++
+    catch e
+      error = e
+    expect(error instanceof TypeError).toBeTruthy()
+
   describe "when no options are provided", ->
     beforeEach ->
       listener = new DOMEventListener document.body, 'click', ->
