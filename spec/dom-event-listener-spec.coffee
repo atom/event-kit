@@ -1,4 +1,4 @@
-window.DEL = DOMEventListener = require '../src/dom-event-listener'
+DOMEventListener = require '../src/dom-event-listener'
 
 dispatchEvent = (target=document.body) ->
   target.dispatchEvent new MouseEvent 'click', {bubbles: true}
