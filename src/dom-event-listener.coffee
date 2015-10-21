@@ -7,10 +7,8 @@ module.exports = class DOMEventListener extends Disposable
 
     wrapper = (event) =>
       if delegationTarget
-        {target} = event
-        while !target.matches(delegationTarget) && target != el
-          target = target.parentNode
-        if target != el
+        target = event.target.closest(delegationTarget)
+        if el.contains target
           @dispose() if once
           cb.call(target, event)
       else
