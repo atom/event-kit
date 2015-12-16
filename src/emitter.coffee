@@ -113,10 +113,57 @@ class Emitter
 
   # Public: Invoke handlers registered via {::on} for the given event name.
   #
+  # If a handler throws, then onHandlerException handlers are called.
+  #
+  # If a handler throws and setEnsureHandlerInvoke(true) has been called, then
+  # the exception is considered handled, and any remaining handlers are invoked;
+  # otherwise the caught exception is rethrown.
+  #
   # * `eventName` The name of the event to emit. Handlers registered with {::on}
   #   for the same name will be invoked.
   # * `value` Callbacks will be invoked with this value as an argument.
   emit: (eventName, value) ->
     if handlers = @handlersByEventName?[eventName]
-      handler(value) for handler in handlers
+      Emitter.dispatch(handler, value) for handler in handlers
     return
+
+  @emitter: new @()
+  @ensureHandlerInvoke: false
+
+  @simpleDispatch: (handler, value) ->
+      handler(value)
+
+  @complexDispatch: (handler, value) ->
+    try
+      handler(value)
+    catch error
+      Emitter.emitter.emit('handler-exception', error)
+      if (not Emitter.ensureHandlerInvoke)
+        throw error
+
+  @dispatch: @simpleDispatch
+
+  # Public: When set to true, all handlers will be invoked when emit is called.
+  # When set to false, if a handler throws, then any remaining handlers are not
+  # invoked and the exception is passed to the caller.
+  #
+  # Defaults to false.
+  @setEnsureHandlerInvoke: (ensure) ->
+    handlers = @emitter.handlersByEventName?['handler-exception']
+    shouldUseComplexDispatch = ensure || (handlers && handlers.length > 0)
+    @dispatch = if shouldUseComplexDispatch then @complexDispatch else @simpleDispatch
+    Emitter.ensureHandlerInvoke = ensure
+
+  # Public: Returns the current state of setEnsureHandlerInvoke.
+  @isEnsureHandlerInvoke: -> Emitter.ensureHandlerInvoke
+
+  # Public: Registers the given handler function to be invoked when any
+  # invoked handler throws. This can be useful for debugging handlers.
+  @onHandlerException: (handler) ->
+    @dispatch = @complexDispatch
+    @emitter.on('handler-exception', (error) ->
+      try
+        handler(error)
+      catch error
+        # Ensure we don't recurse on a buggy handler
+    )
