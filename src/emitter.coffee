@@ -23,6 +23,31 @@ Disposable = require './disposable'
 # ```
 module.exports =
 class Emitter
+  @exceptionHandlers: []
+
+  @onEventHandlerException: (exceptionHandler) ->
+    if @exceptionHandlers.length is 0
+      @dispatch = @exceptionHandlingDispatch
+
+    @exceptionHandlers.push(exceptionHandler)
+
+    new Disposable =>
+      @exceptionHandlers.splice(@exceptionHandlers.indexOf(exceptionHandler), 1)
+      if @exceptionHandlers.length is 0
+        @dispatch = @simpleDispatch
+
+  @simpleDispatch: (handler, value) ->
+    handler(value)
+
+  @exceptionHandlingDispatch: (handler, value) ->
+    try
+      handler(value)
+    catch exception
+      for exceptionHandler in @exceptionHandlers
+        exceptionHandler(exception)
+
+  @dispatch: @simpleDispatch
+
   disposed: false
 
   ###
@@ -118,5 +143,6 @@ class Emitter
   # * `value` Callbacks will be invoked with this value as an argument.
   emit: (eventName, value) ->
     if handlers = @handlersByEventName?[eventName]
-      handler(value) for handler in handlers
+      for handler in handlers
+        @constructor.dispatch(handler, value)
     return
