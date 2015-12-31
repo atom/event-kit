@@ -1,5 +1,3 @@
-Grim = require 'grim'
-
 # Essential: A handle to a resource that can be disposed. For example,
 # {Emitter::on} returns disposables representing subscriptions.
 module.exports =
@@ -36,8 +34,3 @@ class Disposable
       @disposalAction?()
       @disposalAction = null
     return
-
-if Grim.includeDeprecatedAPIs
-  Disposable::off = ->
-    Grim.deprecate("Use ::dispose to cancel subscriptions instead of ::off")
-    @dispose()
