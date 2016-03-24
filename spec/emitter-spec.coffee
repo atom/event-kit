@@ -44,6 +44,39 @@ describe "Emitter", ->
     emitter.emit 'foo', 2
     expect(events).toEqual []
 
+  it "invokes observers registered with once when the named event is emitted only once unless disposed", ->
+    emitter = new Emitter
+
+    fooEvents = []
+    barEvents = []
+    quxEvents = []
+
+    sub1 = emitter.once 'foo', (value) -> fooEvents.push(['a', value])
+    sub2 = emitter.once 'bar', (value) -> barEvents.push(['b', value])
+    sub3 = emitter.preemptOnce 'bar', (value) -> barEvents.push(['c', value])
+    sub4 = emitter.once 'qux', (value) -> quxEvents.push(['c', value])
+
+    emitter.emit 'foo', 1
+    emitter.emit 'foo', 2
+    emitter.emit 'bar', 3
+
+    sub1.dispose()
+
+    emitter.emit 'foo', 4
+    emitter.emit 'bar', 5
+
+    sub2.dispose()
+
+    emitter.emit 'bar', 6
+
+    sub4.dispose()
+
+    emitter.emit 'qux', 7
+
+    expect(fooEvents).toEqual [['a', 1]]
+    expect(barEvents).toEqual [['c', 3], ['b', 3]]
+    expect(quxEvents).toEqual []
+
   describe "when a handler throws an exception", ->
     describe "when no exception handlers are registered on Emitter", ->
       it "throws exceptions as normal, stopping subsequent handlers from firing", ->
