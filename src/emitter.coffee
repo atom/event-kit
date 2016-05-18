@@ -124,12 +124,8 @@ class Emitter
   # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
     return if @disposed
-
-    if oldHandlers = @handlersByEventName[eventName]
-      newHandlers = []
-      for handler in oldHandlers when handler isnt handlerToRemove
-        newHandlers.push(handler)
-      @handlersByEventName[eventName] = newHandlers
+    index = @handlersByEventName[eventName].indexOf(handlerToRemove)
+    @handlersByEventName[eventName].splice(index, 1) if index > -1
     return
 
   ###
@@ -144,5 +140,5 @@ class Emitter
   emit: (eventName, value) ->
     if handlers = @handlersByEventName?[eventName]
       for handler in handlers
-        @constructor.dispatch(handler, value)
+        @constructor.dispatch(handler, value) if typeof handler is 'function'
     return
