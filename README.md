@@ -1,4 +1,5 @@
-# event-kit [![Build Status](https://travis-ci.org/atom/event-kit.svg?branch=master)](https://travis-ci.org/atom/event-kit)
+# event-kit
+[![OS X Build Status](https://travis-ci.org/atom/event-kit.svg?branch=master)](https://travis-ci.org/atom/event-kit) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/lb32q70204lpmlxo/branch/master?svg=true)](https://ci.appveyor.com/project/Atom/event-kit/branch/master) [![Dependency Status](https://david-dm.org/atom/event-kit.svg)](https://david-dm.org/atom/event-kit)
 
 This is a simple library for implementing event subscription APIs.
 
