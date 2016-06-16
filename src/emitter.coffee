@@ -101,6 +101,27 @@ class Emitter
 
     new Disposable(@off.bind(this, eventName, handler))
 
+  # Public: Register the given handler function to be invoked only once whenever
+  # the next by the given name are emitted via {::emit}. After being invoked,
+  # will automatically be unsubscribed.
+  #
+  # * `eventName` {String} naming the event that you want to invoke the handler
+  #   when emitted.
+  # * `handler` {Function} to invoke when {::emit} is called with the given
+  #   event name.
+  #
+  # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
+  once: (eventName, handler, unshift=false) ->
+    if typeof handler isnt 'function'
+      throw new Error("Handler must be a function")
+
+    subscription = null
+    wrappedHandler = (value) ->
+      handler(value)
+      subscription.dispose()
+
+    subscription = @on(eventName, wrappedHandler, unshift)
+
   # Public: Register the given handler function to be invoked *before* all
   # other handlers existing at the time of subscription whenever events by the
   # given name are emitted via {::emit}.
@@ -120,6 +141,27 @@ class Emitter
   # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
   preempt: (eventName, handler) ->
     @on(eventName, handler, true)
+
+  # Public: Register the given handler function to be invoked *before* all
+  # other handlers existing at the time of subscription only once the next time
+  # events by the given name are emitted via {::emit}. After being invoked, it
+  # will automatically be unsubscribed.
+  #
+  # Use this method when you need to be the first to handle a given event. This
+  # could be required when a data structure in a parent object needs to be
+  # updated before third-party event handlers registered on a child object via a
+  # public API are invoked. Your handler could itself be preempted via
+  # subsequent calls to this method, but this can be controlled by keeping
+  # methods based on `::preempt` private.
+  #
+  # * `eventName` {String} naming the event that you want to invoke the handler
+  #   when emitted.
+  # * `handler` {Function} to invoke when {::emit} is called with the given
+  #   event name.
+  #
+  # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
+  preemptOnce: (eventName, handler) ->
+    @once(eventName, handler, true)
 
   # Private: Used by the disposable.
   off: (eventName, handlerToRemove) ->
