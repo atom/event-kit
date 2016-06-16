@@ -1,3 +1,5 @@
+path = require('path')
+
 module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
@@ -25,7 +27,7 @@ module.exports = (grunt) ->
 
     shell:
       test:
-        command: 'node node_modules/.bin/jasmine-focused --coffee --captureExceptions --forceexit spec'
+        command: "#{path.normalize('node_modules/.bin/jasmine-focused')} --coffee --captureExceptions --forceexit spec"
         options:
           stdout: true
           stderr: true
