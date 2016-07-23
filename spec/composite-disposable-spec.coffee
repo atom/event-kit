@@ -29,3 +29,8 @@ describe "CompositeDisposable", ->
     expect(disposable1.disposed).toBe true
     expect(disposable2.disposed).toBe false
     expect(disposable3.disposed).toBe true
+
+  it "does not call dispose on undefined objects", =>
+    composite = new CompositeDisposable(undefined)
+
+    expect(-> composite.dispose()).not.toThrow()
