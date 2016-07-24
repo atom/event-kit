@@ -29,3 +29,19 @@ describe "CompositeDisposable", ->
     expect(disposable1.disposed).toBe true
     expect(disposable2.disposed).toBe false
     expect(disposable3.disposed).toBe true
+
+  describe "Adding non disposables", ->
+    it "throws a TypeError when undefined", ->
+      composite = new CompositeDisposable
+      nonDisposable = undefined
+      expect(-> composite.add(nonDisposable)).toThrow()
+
+    it "throws a TypeError when object missing .dispose()", ->
+      composite = new CompositeDisposable
+      nonDisposable = {}
+      expect(-> composite.add(nonDisposable)).toThrow()
+
+    it "throws a TypeError when object with non-function dispose", ->
+      composite = new CompositeDisposable
+      nonDisposable = { dispose: 'not a function'}
+      expect(-> composite.add(nonDisposable)).toThrow()
