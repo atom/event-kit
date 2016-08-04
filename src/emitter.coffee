@@ -129,7 +129,10 @@ class Emitter
       newHandlers = []
       for handler in oldHandlers when handler isnt handlerToRemove
         newHandlers.push(handler)
-      @handlersByEventName[eventName] = newHandlers
+      if newHandlers.length > 0
+        @handlersByEventName[eventName] = newHandlers
+      else
+        delete @handlersByEventName[eventName]
     return
 
   ###
@@ -146,3 +149,15 @@ class Emitter
       for handler in handlers
         @constructor.dispatch(handler, value)
     return
+
+  getEventNames: ->
+    Object.keys(@handlersByEventName)
+
+  listenerCountForEventName: (eventName) ->
+    @handlersByEventName[eventName]?.length ? 0
+
+  getTotalListenerCount: ->
+    result = 0
+    for eventName in Object.keys(@handlersByEventName)
+      result += @handlersByEventName[eventName].length
+    result

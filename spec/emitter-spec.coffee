@@ -44,6 +44,42 @@ describe "Emitter", ->
     emitter.emit 'foo', 2
     expect(events).toEqual []
 
+  it "allows the listeners to be inspected", ->
+    emitter = new Emitter
+
+    disposable1 = emitter.on 'foo', ->
+    expect(emitter.getEventNames()).toEqual ['foo']
+    expect(emitter.listenerCountForEventName('foo')).toBe(1)
+    expect(emitter.listenerCountForEventName('bar')).toBe(0)
+    expect(emitter.getTotalListenerCount()).toBe(1)
+
+    disposable2 = emitter.on 'bar', ->
+    expect(emitter.getEventNames()).toEqual ['foo', 'bar']
+    expect(emitter.listenerCountForEventName('foo')).toBe(1)
+    expect(emitter.listenerCountForEventName('bar')).toBe(1)
+    expect(emitter.getTotalListenerCount()).toBe(2)
+
+    emitter.preempt 'foo', ->
+    expect(emitter.getEventNames()).toEqual ['foo', 'bar']
+    expect(emitter.listenerCountForEventName('foo')).toBe(2)
+    expect(emitter.listenerCountForEventName('bar')).toBe(1)
+    expect(emitter.getTotalListenerCount()).toBe(3)
+
+    disposable1.dispose()
+    expect(emitter.getEventNames()).toEqual ['foo', 'bar']
+    expect(emitter.listenerCountForEventName('foo')).toBe(1)
+    expect(emitter.listenerCountForEventName('bar')).toBe(1)
+    expect(emitter.getTotalListenerCount()).toBe(2)
+
+    disposable2.dispose()
+    expect(emitter.getEventNames()).toEqual ['foo']
+    expect(emitter.listenerCountForEventName('foo')).toBe(1)
+    expect(emitter.listenerCountForEventName('bar')).toBe(0)
+    expect(emitter.getTotalListenerCount()).toBe(1)
+
+    emitter.clear()
+    expect(emitter.getTotalListenerCount()).toBe(0)
+
   describe "when a handler throws an exception", ->
     describe "when no exception handlers are registered on Emitter", ->
       it "throws exceptions as normal, stopping subsequent handlers from firing", ->
