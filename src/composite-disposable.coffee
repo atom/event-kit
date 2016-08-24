@@ -38,7 +38,8 @@ class CompositeDisposable
     unless @disposed
       @disposed = true
       @disposables.forEach (disposable) ->
-        disposable.dispose()
+        disposable?.dispose?()
+        disposable?.destroy?()
       @disposables = null
     return
 
@@ -51,7 +52,7 @@ class CompositeDisposable
   # If this object has already been disposed, this method has no effect.
   #
   # * `...disposables` {Disposable} instances or any objects with `.dispose()`
-  #   methods.
+  #   or `.destroy()` methods.
   add: ->
     unless @disposed
       @disposables.add(disposable) for disposable in arguments
@@ -60,7 +61,7 @@ class CompositeDisposable
   # Public: Remove a previously added disposable.
   #
   # * `disposable` {Disposable} instance or any object with a `.dispose()`
-  #   method.
+  #   or `.destroy()` method.
   remove: (disposable) ->
     @disposables.delete(disposable) unless @disposed
     return
