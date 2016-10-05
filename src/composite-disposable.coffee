@@ -18,6 +18,14 @@
 #   destroy: ->
 #     @disposables.dispose()
 # ```
+
+# Private: Throw a type error if no .dispose() function.
+valid = (disposable) ->
+  Disposable = require './disposable'
+  message = 'Object missing .dispose()'
+  throw new TypeError(message) unless Disposable.isDisposable(disposable)
+  disposable
+
 module.exports =
 class CompositeDisposable
   disposed: false
@@ -54,7 +62,7 @@ class CompositeDisposable
   #   methods.
   add: ->
     unless @disposed
-      @disposables.add(disposable) for disposable in arguments
+      @disposables.add(valid(disposable)) for disposable in arguments
     return
 
   # Public: Remove a previously added disposable.
