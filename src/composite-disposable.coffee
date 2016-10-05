@@ -1,3 +1,5 @@
+Disposable = null
+
 # Essential: An object that aggregates multiple {Disposable} instances together
 # into a single disposable, so they can all be disposed as a group.
 #
@@ -18,14 +20,6 @@
 #   destroy: ->
 #     @disposables.dispose()
 # ```
-
-# Private: Throw a type error if no .dispose() function.
-valid = (disposable) ->
-  Disposable = require './disposable'
-  message = 'Object missing .dispose()'
-  throw new TypeError(message) unless Disposable.isDisposable(disposable)
-  disposable
-
 module.exports =
 class CompositeDisposable
   disposed: false
@@ -62,7 +56,9 @@ class CompositeDisposable
   #   methods.
   add: ->
     unless @disposed
-      @disposables.add(valid(disposable)) for disposable in arguments
+      for disposable in arguments by 1
+        assertDisposable(disposable)
+        @disposables.add(disposable)
     return
 
   # Public: Remove a previously added disposable.
@@ -78,3 +74,9 @@ class CompositeDisposable
   clear: ->
     @disposables.clear() unless @disposed
     return
+
+assertDisposable = (disposable) ->
+  Disposable ?= require './disposable'
+  unless Disposable.isDisposable(disposable)
+    throw new TypeError('Arguments to CompositeDisposable.add must have a .dispose() method')
+  return
