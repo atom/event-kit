@@ -69,6 +69,11 @@ class CompositeDisposable
     @disposables.delete(disposable) unless @disposed
     return
 
+  # Public: Alias to {CompositeDisposable::remove}
+  delete: (disposable) ->
+    @remove(disposable)
+    return
+
   # Public: Clear all disposables. They will not be disposed by the next call
   # to dispose.
   clear: ->

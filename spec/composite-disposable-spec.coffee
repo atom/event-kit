@@ -21,14 +21,15 @@ describe "CompositeDisposable", ->
     composite = new CompositeDisposable
     composite.add(disposable1)
     composite.add(disposable2, disposable3)
-    composite.remove(disposable2)
+    composite.delete(disposable1)
+    composite.remove(disposable3)
 
     composite.dispose()
 
     expect(composite.disposed).toBe true
-    expect(disposable1.disposed).toBe true
-    expect(disposable2.disposed).toBe false
-    expect(disposable3.disposed).toBe true
+    expect(disposable1.disposed).toBe false
+    expect(disposable2.disposed).toBe true
+    expect(disposable3.disposed).toBe false
 
   describe "Adding non disposables", ->
     it "throws a TypeError when undefined", ->
