@@ -30,7 +30,7 @@ describe 'MappedDisposable', ->
       ['foo', disposable1],
       ['bar', disposable2]
     ]
-    expect(map.get('foo')).toBeInstanceOf CompositeDisposable
+    expect(map.get('foo') instanceof CompositeDisposable).toBe true
     expect(map.get('bar')).toBe disposable2
 
   it 'allows disposables to be added to keys', ->
