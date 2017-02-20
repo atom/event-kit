@@ -1,4 +1,4 @@
-import './disposable.coffee'
+import Disposable from './disposable.coffee'
 
 # Essential: Utility class to be used when implementing event-based APIs that
 # allows for handlers registered via `::on` to be invoked with calls to
