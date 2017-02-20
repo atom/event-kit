@@ -1,17 +1,18 @@
-var rollup = require( 'rollup' );
+var rollup = require('rollup');
 var coffeescript = require('rollup-plugin-coffee-script')
 var cache;
 
 rollup.rollup({
   entry: 'src/event-kit.coffee',
   plugins: [
-      coffeescript()
+    coffeescript()
   ],
   cache: cache
-}).then( function ( bundle ) {
+}).then(function (bundle) {
   bundle.write({
-    format: 'iife',
+    moduleName: 'self',
+    format: 'umd',
     watch: true,
-    dest: 'lib/browser/event-kit.js'
+    dest: 'lib/event-kit.js'
   });
 });
