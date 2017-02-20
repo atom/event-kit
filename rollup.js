@@ -10,7 +10,7 @@ rollup.rollup({
   cache: cache
 }).then(function (bundle) {
   bundle.write({
-    moduleName: 'self',
+    moduleName: 'EventKit',
     format: 'umd',
     watch: true,
     dest: 'lib/event-kit.js'
