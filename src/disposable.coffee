@@ -1,6 +1,6 @@
 # Essential: A handle to a resource that can be disposed. For example,
 # {Emitter::on} returns disposables representing subscriptions.
-module.exports =
+
 class Disposable
   disposed: false
 
@@ -34,3 +34,5 @@ class Disposable
       @disposalAction?()
       @disposalAction = null
     return
+    
+export default Disposable
