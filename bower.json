@@ -1,0 +1,19 @@
+{
+  "name": "event-kit",
+  "description": "Simple library for implementing and consuming evented APIs",
+  "main": [
+    "lib/event-kit.js"
+  ],
+  "keywords": [
+    "event",
+    "kit"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
