@@ -1,6 +1,6 @@
 {
   "name": "event-kit",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./lib/event-kit",
   "scripts": {
