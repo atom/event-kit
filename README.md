@@ -56,6 +56,26 @@ subscriptions.add user2.onDidChangeName (name) -> console.log("User 2: #{name}")
 subscriptions.dispose()
 ```
 
+## Working with DOM Events
+
+Event kit provides the `DOMEventListener` class to integrate with the DOM Event
+API. `DOMEventListener` instances are disposables that will remove the event
+listener on disposal.
+
+```coffee
+{DOMEventListener} = require 'event-kit'
+
+subscription = new DOMEventListener document.body, 'click', ->
+  console.log 'body was clicked'
+,
+  # initiate capture for this event
+  useCapture: true
+  # delegate event to elements that match the delegationTarget selector
+  delegationTarget: '.delegation-target'
+  # immediately dispose of the event listener when it is triggered for the first time
+  once: true
+```
+
 ## Creating Your Own Disposables
 
 Disposables are convenient ways to represent a resource you will no longer
