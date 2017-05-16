@@ -101,6 +101,21 @@ class Emitter
 
     new Disposable(@off.bind(this, eventName, handler))
 
+  # Public: Register the given handler function to be invoked the next time an
+  # events with the given name is emitted via {::emit}.
+  #
+  # * `eventName` {String} naming the event that you want to invoke the handler
+  #   when emitted.
+  # * `handler` {Function} to invoke when {::emit} is called with the given
+  #   event name.
+  #
+  # Returns a {Disposable} on which `.dispose()` can be called to unsubscribe.
+  once: (eventName, handler, unshift=false) ->
+    wrapped = (value) ->
+      disposable.dispose()
+      handler(value)
+    disposable = @on(eventName, wrapped, unshift)
+
   # Public: Register the given handler function to be invoked *before* all
   # other handlers existing at the time of subscription whenever events by the
   # given name are emitted via {::emit}.

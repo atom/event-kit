@@ -80,6 +80,22 @@ describe "Emitter", ->
     emitter.clear()
     expect(emitter.getTotalListenerCount()).toBe(0)
 
+  describe "::once", ->
+    it "only invokes the handler once", ->
+      emitter = new Emitter
+      firedCount = 0
+      emitter.once 'foo', -> firedCount += 1
+      emitter.emit 'foo'
+      emitter.emit 'foo'
+      expect(firedCount).toBe 1
+
+    it "invokes the handler with the emitted value", ->
+      emitter = new Emitter
+      emittedValue = null
+      emitter.once 'foo', (value) -> emittedValue = value
+      emitter.emit 'foo', 'bar'
+      expect(emittedValue).toBe 'bar'
+
   describe "when a handler throws an exception", ->
     describe "when no exception handlers are registered on Emitter", ->
       it "throws exceptions as normal, stopping subsequent handlers from firing", ->
