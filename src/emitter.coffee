@@ -165,6 +165,13 @@ class Emitter
         @constructor.dispatch(handler, value)
     return
 
+  emitAsync: (eventName, value) ->
+    if handlers = @handlersByEventName?[eventName]
+      promises = for handler in handlers
+        @constructor.dispatch(handler, value)
+      return Promise.all(promises).then -> return
+    return Promise.resolve()
+
   getEventNames: ->
     Object.keys(@handlersByEventName)
 

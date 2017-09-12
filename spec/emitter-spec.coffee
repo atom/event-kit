@@ -145,3 +145,38 @@ describe "Emitter", ->
         expect(-> emitter.emit 'foo').toThrow()
         expect(errorHandlerInvocations).toEqual []
         expect(handler2Fired).toBe false
+
+  describe "::emitAsync", ->
+    it "resolves when all of the promises returned by handlers have resolved", ->
+      emitter = new Emitter
+
+      resolveHandler1 = null
+      resolveHandler3 = null
+      disposable1 = emitter.on 'foo', -> new Promise((resolve) -> resolveHandler1 = resolve)
+      disposable2 = emitter.on 'foo', -> return
+      disposable3 = emitter.on 'foo', -> new Promise((resolve) -> resolveHandler3 = resolve)
+
+      result = emitter.emitAsync 'foo'
+
+      waitsFor (done) ->
+        resolveHandler3()
+        resolveHandler1()
+        result.then (result) ->
+          expect(result).toBeUndefined()
+          done()
+
+    it "rejects when any of the promises returned by handlers reject", ->
+      emitter = new Emitter
+
+      rejectHandler1 = null
+      disposable1 = emitter.on 'foo', -> new Promise((resolve, reject) -> rejectHandler1 = reject)
+      disposable2 = emitter.on 'foo', -> return
+      disposable3 = emitter.on 'foo', -> new Promise((resolve) ->)
+
+      result = emitter.emitAsync 'foo'
+
+      waitsFor (done) ->
+        rejectHandler1(new Error('Something bad happened'))
+        result.catch (error) ->
+          expect(error.message).toBe('Something bad happened')
+          done()
