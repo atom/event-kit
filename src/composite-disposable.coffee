@@ -20,7 +20,6 @@ Disposable = null
 #   destroy: ->
 #     @disposables.dispose()
 # ```
-module.exports =
 class CompositeDisposable
   disposed: false
 
@@ -85,3 +84,5 @@ assertDisposable = (disposable) ->
   unless Disposable.isDisposable(disposable)
     throw new TypeError('Arguments to CompositeDisposable.add must have a .dispose() method')
   return
+
+export default CompositeDisposable

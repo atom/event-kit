@@ -1,4 +1,4 @@
-Disposable = require './disposable'
+import Disposable from './disposable.coffee'
 
 # Essential: Utility class to be used when implementing event-based APIs that
 # allows for handlers registered via `::on` to be invoked with calls to
@@ -21,7 +21,6 @@ Disposable = require './disposable'
 #       @emitter.emit 'did-change-name', name
 #     @name
 # ```
-module.exports =
 class Emitter
   @exceptionHandlers: []
 
@@ -183,3 +182,5 @@ class Emitter
     for eventName in Object.keys(@handlersByEventName)
       result += @handlersByEventName[eventName].length
     result
+
+export default Emitter
