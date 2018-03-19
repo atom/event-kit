@@ -96,6 +96,22 @@ describe "Emitter", ->
       emitter.emit 'foo', 'bar'
       expect(emittedValue).toBe 'bar'
 
+  describe "dispose", ->
+    it "disposes of all listeners", ->
+      emitter = new Emitter
+      disposable1 = emitter.on 'foo', ->
+      disposable2 = emitter.once 'foo', ->
+      emitter.dispose()
+      expect(disposable1.disposed).toBe true
+      expect(disposable2.disposed).toBe true
+
+    it "doesn't keep track of disposed disposables", ->
+      emitter = new Emitter
+      disposable = emitter.on 'foo', ->
+      expect(emitter.subscriptions.disposables.size).toBe 1
+      disposable.dispose()
+      expect(emitter.subscriptions.disposables.size).toBe 0
+
   describe "when a handler throws an exception", ->
     describe "when no exception handlers are registered on Emitter", ->
       it "throws exceptions as normal, stopping subsequent handlers from firing", ->

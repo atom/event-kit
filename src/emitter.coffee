@@ -1,4 +1,5 @@
 Disposable = require './disposable'
+CompositeDisposable = require './composite-disposable'
 
 # Essential: Utility class to be used when implementing event-based APIs that
 # allows for handlers registered via `::on` to be invoked with calls to
@@ -64,10 +65,13 @@ class Emitter
 
   # Public: Clear out any existing subscribers.
   clear: ->
+    @subscriptions?.dispose()
+    @subscriptions = new CompositeDisposable
     @handlersByEventName = {}
 
   # Public: Unsubscribe all handlers.
   dispose: ->
+    @subscriptions.dispose()
     @handlersByEventName = null
     @disposed = true
 
@@ -99,7 +103,15 @@ class Emitter
     else
       @handlersByEventName[eventName] = [handler]
 
-    new Disposable(@off.bind(this, eventName, handler))
+    # When the emitter is disposed, we want to dispose of all subscriptions.
+    # However, we also need to stop tracking disposables when they're disposed
+    # from outside, otherwise this class will hold references to all the
+    # disposables it created (instead of just the active ones).
+    cleanup = new Disposable =>
+      @subscriptions.remove cleanup
+      @off(eventName, handler)
+    @subscriptions.add cleanup
+    cleanup
 
   # Public: Register the given handler function to be invoked the next time an
   # events with the given name is emitted via {::emit}.
