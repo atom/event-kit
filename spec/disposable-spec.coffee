@@ -1,4 +1,4 @@
-Disposable = require '../src/disposable'
+Disposable = require '../lib/disposable'
 
 describe "Disposable", ->
   it "does not try to execute disposalAction when it is not a function", ->
