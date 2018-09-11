@@ -5,24 +5,31 @@ This is a simple library for implementing event subscription APIs.
 
 ## Implementing Event Subscription APIs
 
-```coffee
-{Emitter} = require 'event-kit'
+```js
+const {Emitter} = require('event-kit')
 
-class User
-  constructor: ->
-     @emitter = new Emitter
+class User {
+  constructor() {
+    this.emitter = new Emitter()
+  }
 
-  onDidChangeName: (callback) ->
-     @emitter.on 'did-change-name', callback
+  onDidChangeName(callback) {
+    this.emitter.on('did-change-name', callback)
+  }
 
-  setName: (name) ->
-     if name isnt @name
-       @name = name
-       @emitter.emit 'did-change-name', name
-     @name
+  setName(name) {
+    if (name !== this.name) {
+      this.name = name
+      this.emitter.emit('did-change-name', name)
+    }
 
-  destroy: ->
-    @emitter.dispose()
+    return this.name
+  }
+
+  destroy() {
+    this.emitter.dispose()
+  }
+}
 ```
 
 In the example above, we implement `::onDidChangeName` on the user object, which
@@ -37,22 +44,22 @@ on the emitter to unsubscribe all subscribers.
 `Emitter::on` returns a `Disposable` instance, which has a `::dispose` method.
 To unsubscribe, simply call dispose on the returned object.
 
-```coffee
-subscription = user.onDidChangeName (name) -> console.log("My name is #{name}")
-# Later, to unsubscribe...
+```js
+const subscription = user.onDidChangeName((name) => console.log(`My name is ${name}`))
+// Later, to unsubscribe...
 subscription.dispose()
 ```
 
 You can also use `CompositeDisposable` to combine disposable instances together.
 
-```coffee
-{CompositeDisposable} = require 'event-kit'
+```js
+const {CompositeDisposable} = require('event-kit')
 
-subscriptions = new CompositeDisposable
-subscriptions.add user1.onDidChangeName (name) -> console.log("User 1: #{name}")
-subscriptions.add user2.onDidChangeName (name) -> console.log("User 2: #{name}")
+const subscriptions = new CompositeDisposable()
+subscriptions.add(user1.onDidChangeName((name) => console.log(`User 1: ${name}`))
+subscriptions.add(user2.onDidChangeName((name) => console.log(`User 2: ${name}`))
 
-# Later, to unsubscribe from *both*...
+// Later, to unsubscribe from *both*...
 subscriptions.dispose()
 ```
 
@@ -62,8 +69,8 @@ Disposables are convenient ways to represent a resource you will no longer
 need at some point. You can instantiate a disposable with an action to take when
 no longer needed.
 
-```coffee
-{Disposable} = require 'event-kit'
+```js
+const {Disposable} = require('event-kit')
 
-disposable = new Disposable => @destroyResource()
+const disposable = new Disposable(() => this.destroyResource())
 ```
