@@ -4,7 +4,7 @@
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./lib/event-kit",
   "scripts": {
-    "prepublish": "grunt lint shell:update-atomdoc atomdoc",
+    "prepublish": "grunt shell:update-atomdoc atomdoc",
     "test": "grunt test"
   },
   "repository": {
