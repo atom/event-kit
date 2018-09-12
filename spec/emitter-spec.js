@@ -40,6 +40,18 @@ describe("Emitter", function() {
     expect(() => emitter.on("foo", "a")).toThrow()
   })
 
+  it("can register a function more than once, and therefore will call it multiple times", function() {
+    const emitter = new Emitter();
+    let callCount = 0;
+    const fn = () => callCount++
+
+    emitter.on('foo', fn);
+    emitter.on('foo', fn);
+    emitter.emit('foo')
+
+    expect(callCount).toEqual(2);
+  })
+
   it("allows all subsribers to be cleared out at once", function() {
     const emitter = new Emitter()
     const events = []
