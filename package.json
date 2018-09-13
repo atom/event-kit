@@ -14,12 +14,7 @@
   "bugs": {
     "url": "https://github.com/atom/event-kit/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/atom/event-kit/raw/master/LICENSE.md"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
