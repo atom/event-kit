@@ -4,3 +4,5 @@ npm-debug.log
 *.swp
 .coffee
 api.json
+dist
+package-lock.json

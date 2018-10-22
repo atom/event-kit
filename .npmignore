@@ -1,10 +1,9 @@
 spec
 script
 src
-*.coffee
+lib
 .npmignore
 .DS_Store
 npm-debug.log
 .travis.yml
 .pairs
-.coffee
