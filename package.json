@@ -2,10 +2,10 @@
   "name": "event-kit",
   "version": "2.5.1",
   "description": "Simple library for implementing and consuming evented APIs",
-  "main": "./lib/event-kit",
+  "main": "./dist/event-kit",
   "scripts": {
-    "prepublish": "grunt shell:update-atomdoc atomdoc",
-    "test": "grunt test"
+    "prepublish": "babel lib --out-dir dist --presets @babel/env && grunt shell:update-atomdoc atomdoc",
+    "test": "jasmine-focused --captureExceptions --forceexit spec"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
     "grunt": "^0.4.1",
     "grunt-atomdoc": "^1.0.0",
     "grunt-cli": "^0.1.8",

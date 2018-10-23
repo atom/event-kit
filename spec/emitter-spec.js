@@ -1,4 +1,4 @@
-const Emitter = require("../lib/emitter")
+const Emitter = require("../dist/emitter")
 
 describe("Emitter", function() {
   it("invokes the observer when the named event is emitted until disposed", function() {

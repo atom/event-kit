@@ -1,5 +1,5 @@
-const CompositeDisposable = require("../lib/composite-disposable")
-const Disposable = require("../lib/disposable")
+const CompositeDisposable = require("../dist/composite-disposable")
+const Disposable = require("../dist/disposable")
 
 describe("CompositeDisposable", function() {
   let disposable1, disposable2, disposable3
