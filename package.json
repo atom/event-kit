@@ -4,7 +4,7 @@
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./dist/event-kit",
   "scripts": {
-    "prepublish": "babel lib --out-dir dist --presets @babel/env && grunt shell:update-atomdoc atomdoc",
+    "prepublish": "babel lib --out-dir dist --presets @babel/env && joanna-tello -o api.json package.json lib",
     "test": "jasmine-focused --captureExceptions --forceexit spec"
   },
   "repository": {
@@ -15,16 +15,12 @@
     "url": "https://github.com/atom/event-kit/issues"
   },
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
-    "grunt": "^0.4.1",
-    "grunt-atomdoc": "^1.0.0",
-    "grunt-cli": "^0.1.8",
-    "grunt-shell": "^0.2.2",
     "jasmine-focused": "^1.0.4",
+    "joanna": "0.0.11",
     "rimraf": "^2.2.2",
     "temp": "^0.6.0"
   }
