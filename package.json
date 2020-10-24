@@ -4,7 +4,9 @@
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./dist/event-kit",
   "scripts": {
-    "prepublish": "babel lib --out-dir dist --presets @babel/env && joanna-tello -o api.json package.json lib",
+    "build": "cross-env BABEL_KEEP_MODULES=false babel lib --out-dir dist --delete-dir-on-start",
+    "docs": "joanna-tello -o api.json package.json lib",
+    "prepublish": "npm run build && npm run docs",
     "test": "jasmine-focused --captureExceptions --forceexit spec"
   },
   "repository": {
