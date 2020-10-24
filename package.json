@@ -23,8 +23,6 @@
     "babel-preset-atomic": "^2.5.4",
     "cross-env": "^7.0.2",
     "jasmine-focused": "^1.0.7",
-    "joanna": "https://github.com/aminya/joanna",
-    "rimraf": "^2.2.2",
-    "temp": "^0.6.0"
+    "joanna": "https://github.com/aminya/joanna"
   }
 }
