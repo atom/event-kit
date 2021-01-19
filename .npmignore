@@ -6,3 +6,4 @@ src
 npm-debug.log
 .travis.yml
 .pairs
+.parcel-cache

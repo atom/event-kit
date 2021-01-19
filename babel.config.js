@@ -1,6 +1,8 @@
 let presets = ["babel-preset-atomic"];
 
-let plugins = ["@babel/plugin-transform-classes"] // this is needed so Disposabale can be extended by ES5-style classes
+let plugins = process.env.PARCEL_ENV
+  ? [] // the optimized bundle uses ES6 class
+  : ["@babel/plugin-transform-classes"] // this is needed so Disposabale can be extended by ES5-style classes
 
 module.exports = {
   presets: presets,

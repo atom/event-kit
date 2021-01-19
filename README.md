@@ -75,8 +75,15 @@ const {Disposable} = require('event-kit')
 const disposable = new Disposable(() => this.destroyResource())
 ```
 
-### Using ES6 Code
-You can use the ES6 style classes from `lib` directory.
+### ES6 Classes
+For backward compatibility, the main entry of this package uses prototypical functions instead of classes. To use the version of the code that use classes, there are two options:
+
+- The bundled code:
 ```
-const {Disposable} = require('event-kit/lib/event-kit')
+const {Disposable, Emitter, CompositeDisposable} = require('event-kit/dist/event-kit.bundle')
+```
+
+- The source code:
+```
+const {Disposable, Emitter, CompositeDisposable} = require('event-kit/lib/event-kit')
 ```
