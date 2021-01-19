@@ -6,3 +6,4 @@ npm-debug.log
 api.json
 dist
 package-lock.json
+.parcel-cache

@@ -3,8 +3,11 @@
   "version": "2.5.3",
   "description": "Simple library for implementing and consuming evented APIs",
   "main": "./dist/event-kit",
+  "bundle": "./dist/event-kit.bundle.js",
   "scripts": {
-    "build": "cross-env BABEL_KEEP_MODULES=false babel lib --out-dir dist --delete-dir-on-start",
+    "babel": "cross-env BABEL_KEEP_MODULES=false babel lib --out-dir dist --delete-dir-on-start",
+    "bundle": "cross-env PARCEL_ENV=true cross-env NODE_ENV=production parcel build --target bundle lib/event-kit.js",
+    "build": "npm run babel && npm run bundle",
     "docs": "joanna-tello -o api.json package.json lib",
     "prepublish": "npm run build && npm run docs",
     "test": "jasmine-focused --captureExceptions --forceexit spec"
@@ -23,6 +26,17 @@
     "babel-preset-atomic": "^3.0.1",
     "cross-env": "^7.0.3",
     "jasmine-focused": "^1.0.7",
-    "joanna": "https://github.com/aminya/joanna"
+    "joanna": "https://github.com/aminya/joanna",
+    "parcel": "2.0.0-nightly.495"
+  },
+  "targets": {
+    "bundle": {
+      "context": "electron-renderer",
+      "engines": {
+        "electron": ">=6.x"
+      },
+      "outputFormat": "commonjs",
+      "isLibrary": true
+    }
   }
 }
