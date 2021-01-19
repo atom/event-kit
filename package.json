@@ -27,7 +27,7 @@
     "cross-env": "^7.0.3",
     "jasmine-focused": "^1.0.7",
     "joanna": "https://github.com/aminya/joanna",
-    "parcel": "^2.0.0-nightly.429"
+    "parcel": "2.0.0-nightly.495"
   },
   "targets": {
     "bundle": {
