@@ -74,3 +74,9 @@ const {Disposable} = require('event-kit')
 
 const disposable = new Disposable(() => this.destroyResource())
 ```
+
+### Using ES6 Code
+You can use the ES6 style classes from `lib` directory.
+```
+const {Disposable} = require('event-kit/lib/event-kit')
+```
