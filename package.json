@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "babel-preset-atomic": "^3.0.1",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "babel-preset-atomic": "^4.2.1",
     "cross-env": "^7.0.3",
     "jasmine-focused": "^1.0.7",
     "joanna": "https://github.com/aminya/joanna"
